@@ -1,6 +1,4 @@
-<p align="center">
-    `rstrings`
-</p>
+## <p align="center">`rstrings`</p>
 
 
 

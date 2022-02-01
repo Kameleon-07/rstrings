@@ -40,7 +40,7 @@ sudo cp target/release/rstrings /usr/local/bin
 
 <br>
 
-### Changing default length of printable characters sequence
+### Changing length of printable characters sequence
 <p align="center"><img src="https://github.com/Kameleon-07/rstrings/blob/main/previews/n.gif"></p>
 
 <br>

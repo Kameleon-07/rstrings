@@ -12,4 +12,6 @@
 
 |Option|Short|Explanation|
 |------|-----|-----------|
-|Offset|o|Prints offset of first char in sequence|
+|offset|o|Prints offset of first char in sequence|
+|no-color|None|Output will not be colorized|
+|n|n|Specifies how long should be sequence of characters (default 4)|

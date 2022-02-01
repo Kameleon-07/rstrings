@@ -29,7 +29,7 @@ fn main() {
                             .arg(Arg::new("n")
                                 .value_name("n")
                                 .help("Specifies minimum length of the sequence of printable characters")
-                                .takes_value(false)
+                                .takes_value(true)
                                 .short('n'))
                             .get_matches();
     

@@ -12,7 +12,7 @@
 
 |Option|Short|Explanation|
 |------|-----|-----------|
-|--show-index|o|Prints index of first char in sequence|
+|--show-index|i|Prints index of first char in sequence|
 |no-color|None|Output will not be colorized|
 |n|n|Specifies how long should be sequence of characters (default 4)|
 

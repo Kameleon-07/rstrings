@@ -15,10 +15,10 @@ fn main() {
                                 .required(true)
                                 .takes_value(true)
                                 .index(1))
-                            .arg(Arg::new("offset")
-                                .short('o')
-                                .long("offset")
-                                .value_name("offset")
+                            .arg(Arg::new("show-index")
+                                .short('i')
+                                .long("show-index")
+                                .value_name("index")
                                 .help("Shows the offset of the character sequences")
                                 .takes_value(false))
                             .arg(Arg::new("no-color")
@@ -35,7 +35,7 @@ fn main() {
     
     let rstrings_file = matches.value_of("file").unwrap();
     let length_of_sequence = matches.value_of("n").unwrap_or("4").parse::<usize>().unwrap();
-    let should_print_offset = match matches.occurrences_of("offset") {
+    let should_print_offset = match matches.occurrences_of("show-index") {
         0 => false,
         1 | _ => true
     };

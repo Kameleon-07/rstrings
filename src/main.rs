@@ -11,11 +11,11 @@ fn main() {
         /// Name of the file to read from
         file: String,
 
-        /// Shows the index of the first character in the sequence
+        /// Shows index of the first character in the sequence
         #[clap(short = 'i', long = "show-index")]
         show_index: bool,
 
-        /// Choosing that will result printing output without colorizing
+        /// Choosing this will result printing output without colorizing
         #[clap(long = "no-color")]
         show_color: bool,
         

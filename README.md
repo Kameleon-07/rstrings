@@ -12,9 +12,9 @@
 
 |Option|Short|Explanation|
 |------|-----|-----------|
-|--show-index|i|Prints index of first char in sequence|
-|no-color|None|Output will not be colorized|
-|n|n|Specifies how long should be sequence of characters (default 4)|
+|show-index|i|Shows index of the first character in the sequence|
+|no-color|None|Choosing that will result printing output without colorizing|
+|sequence-length|n|Specifies minimum length of the printable characters sequence (default 4)|
 
 <br>
 

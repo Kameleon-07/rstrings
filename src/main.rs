@@ -1,60 +1,40 @@
-extern crate clap;
-use clap::{Arg, App};
+use clap::Parser;
 use std::io::Read;
 use std::io::BufReader;
 use std::fs::File;
 use colored::Colorize;
 
 fn main() {
-    let matches = App::new("rstrings")
-                            .version("Version: 0.1.0")
-                            .about("Finds n long sequences of printable characters in binary files.")
-                            .arg(Arg::new("file")
-                                .value_name("file")
-                                .help("Sets the file to search in")
-                                .required(true)
-                                .takes_value(true)
-                                .index(1))
-                            .arg(Arg::new("show-index")
-                                .short('i')
-                                .long("show-index")
-                                .value_name("index")
-                                .help("Shows the offset of the character sequences")
-                                .takes_value(false))
-                            .arg(Arg::new("no-color")
-                                .long("no-color")
-                                .value_name("no-color")
-                                .help("Disables colorizing output")
-                                .takes_value(false))
-                            .arg(Arg::new("n")
-                                .value_name("n")
-                                .help("Specifies minimum length of the sequence of printable characters")
-                                .takes_value(true)
-                                .short('n'))
-                            .get_matches();
-    
-    let rstrings_file = matches.value_of("file").unwrap();
-    let length_of_sequence = matches.value_of("n").unwrap_or("4").parse::<usize>().unwrap();
-    let should_print_offset = match matches.occurrences_of("show-index") {
-        0 => false,
-        1 | _ => true
-    };
+    #[derive(Parser, Debug)]
+    #[clap(version = "0.1.0", about = "Finds n long sequences of printable characters in binary files.")]
+    struct Args {
+        /// Name of the file to read from
+        file: String,
 
-    let should_colorize = match matches.occurrences_of("no-color") {
-        0 => true,
-        1 | _ => false
-    };
+        /// Shows the index of the first character in the sequence
+        #[clap(short = 'i', long = "show-index")]
+        show_index: bool,
 
-    let f = File::open(rstrings_file).expect("Failed opening file");
+        /// Choosing that will result printing output without colorizing
+        #[clap(long = "no-color")]
+        show_color: bool,
+        
+        /// Specifies minimum length of the printable characters sequence
+        #[clap(short = 'n', long = "sequence-length", default_value_t = 4)]
+        sequence_length: usize
+    }
+
+    let args = Args::parse();
+    let f = File::open(args.file).expect("Failed opening file");
     let mut reader = BufReader::new(f);
     let mut buffer = Vec::new();
 
     reader.read_to_end(&mut buffer).expect("Failed reading file");
-    let sequence_indexes = return_printable_characters_indexes(&buffer, length_of_sequence);
+    let sequence_indexes = return_printable_characters_indexes(&buffer, args.sequence_length);
     let (start_sequence_indexes, end_sequence_indexes) = sequence_indexes;
     for i in 0..start_sequence_indexes.len() {
-        if should_print_offset {
-            if should_colorize {
+        if args.show_index {
+            if args.show_color {
                 let offset = format!("{}", start_sequence_indexes[i]).red();
                 print!("{} ", offset);
             } else {
@@ -62,7 +42,7 @@ fn main() {
             }
         }
         for j in start_sequence_indexes[i]..end_sequence_indexes[i] {
-            if should_colorize {
+            if args.show_color {
                 let output = format!("{}", buffer[j] as char).bold().green();
                 print!("{}", output);
             } else {

@@ -40,10 +40,10 @@ sudo cp target/release/rstrings /usr/local/bin
 
 <br>
 
-### Changing length of printable characters sequence
+### Changing minimum sequence length
 <p align="center"><img src="https://github.com/Kameleon-07/rstrings/blob/main/previews/n.gif"></p>
 
 <br>
 
-### See index of first char in sequence
+### Show index of first char in sequence
 <p align="center"><img src="https://github.com/Kameleon-07/rstrings/blob/main/previews/showindex.gif"></p>

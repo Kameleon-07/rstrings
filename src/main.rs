@@ -57,7 +57,7 @@ fn main() {
 
 fn return_printable_characters_indexes(buffer: &Vec<u8>, n: usize) ->  (Vec<usize>, Vec<usize>) {
     let mut length = 0;
-    let mut offset = 0;
+    let mut index = 0;
     let mut start_sequence_index = Vec::new();
     let mut end_sequence_index = Vec::new();
 
@@ -66,12 +66,12 @@ fn return_printable_characters_indexes(buffer: &Vec<u8>, n: usize) ->  (Vec<usiz
             length += 1;
         } else {
             if length >= n {
-                start_sequence_index.push(offset - length);
-                end_sequence_index.push(offset);
+                start_sequence_index.push(index - length);
+                end_sequence_index.push(index);
             }
             length = 0;
         }
-        offset += 1;
+        index += 1;
     }
 
     (start_sequence_index, end_sequence_index)

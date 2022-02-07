@@ -20,7 +20,7 @@
 
 ## Requirements
 
-* any linux distro (tested on arch)
+* any linux distro (tested on ArchLinux)
 * rust compiler
 
 ## Installation

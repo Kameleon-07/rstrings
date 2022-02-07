@@ -24,6 +24,14 @@
 * rust compiler
 
 ## Installation
+```
+git clone https://github.com/Kameleon-07/rstrings.git
+cd rstrings
+cargo install --path
+strip ~/.cargo/bin/rstrings
+```
+
+#### Or more manually:
 
 ```
 git clone https://github.com/Kameleon-07/rstrings.git

@@ -35,7 +35,7 @@ fn main() {
     for i in 0..start_sequence_indexes.len() {
         if args.show_index {
             if !args.show_color {
-                let offset = format!("{}", start_sequence_indexes[i]).red();
+                let offset = format!("{}", start_sequence_indexes[i]).yellow();
                 print!("{} ", offset);
             } else {
                 print!("{} ", start_sequence_indexes[i]);

@@ -1,8 +1,9 @@
 use clap::Parser;
-use std::io::Read;
-use std::io::BufReader;
+use std::io::{prelude::*, BufReader};
 use std::fs::File;
-use colored::Colorize;
+
+const GREEN: &str = "\x1b[1;32m";
+const RESET: &str = "\x1b[0m";
 
 fn main() {
     #[derive(Parser, Debug)]
@@ -17,7 +18,7 @@ fn main() {
 
         /// Choosing this will result printing output without colorizing
         #[clap(long = "no-color")]
-        show_color: bool,
+        no_color: bool,
         
         /// Specifies minimum length of the printable characters sequence
         #[clap(short = 'n', long = "sequence-length", default_value_t = 4)]
@@ -28,51 +29,39 @@ fn main() {
     let f = File::open(args.file).expect("Failed opening file");
     let mut reader = BufReader::new(f);
     let mut buffer = Vec::new();
-
     reader.read_to_end(&mut buffer).expect("Failed reading file");
-    let sequence_indexes = return_printable_characters_indexes(&buffer, args.sequence_length);
-    let (start_sequence_indexes, end_sequence_indexes) = sequence_indexes;
-    for i in 0..start_sequence_indexes.len() {
-        if args.show_index {
-            if !args.show_color {
-                let offset = format!("{}", start_sequence_indexes[i]).yellow();
-                print!("{} ", offset);
+
+        let mut length = 0;
+        let mut printable_characters_sequence = String::new();
+        let mut sequence_start = 0;
+
+        for (index, value) in buffer.iter().enumerate() {
+            if *value <= 126 && *value >= 32 {
+                if length == 0 {
+                    sequence_start = index
+                }
+                length += 1;
+                printable_characters_sequence.push(*value as char);
             } else {
-                print!("{} ", start_sequence_indexes[i]);
+                if length >= args.sequence_length {
+                    if args.show_index {
+                        printable_characters_sequence.insert_str(0, format!("{} ", sequence_start).as_str());
+                    }
+
+                    printable_characters_sequence.insert_str(0, GREEN);
+                    printable_characters_sequence.push_str(RESET);
+
+                    if args.no_color {
+                        for _i in 0..8 {
+                            printable_characters_sequence.remove(0);
+                            printable_characters_sequence.remove(printable_characters_sequence.len() - 1);
+                        }
+                    }
+                    println!("{}", printable_characters_sequence);
+                }
+
+                length = 0;
+                printable_characters_sequence = String::new();
             }
         }
-        for j in start_sequence_indexes[i]..end_sequence_indexes[i] {
-            if !args.show_color {
-                let output = format!("{}", buffer[j] as char).bold().green();
-                print!("{}", output);
-            } else {
-                print!("{}", buffer[j] as char);
-            }
-        }
-        println!();
-    }
-    
-    
-}
-
-fn return_printable_characters_indexes(buffer: &Vec<u8>, n: usize) ->  (Vec<usize>, Vec<usize>) {
-    let mut length = 0;
-    let mut index = 0;
-    let mut start_sequence_index = Vec::new();
-    let mut end_sequence_index = Vec::new();
-
-    for value in buffer {
-        if *value <= 126 && *value >= 32 {
-            length += 1;
-        } else {
-            if length >= n {
-                start_sequence_index.push(index - length);
-                end_sequence_index.push(index);
-            }
-            length = 0;
-        }
-        index += 1;
-    }
-
-    (start_sequence_index, end_sequence_index)
 }

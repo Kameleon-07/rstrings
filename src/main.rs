@@ -56,9 +56,9 @@ fn main() {
                             printable_characters_sequence.remove(0);
                         }
                     }
+                    println!("{}", printable_characters_sequence);
                 }
 
-                println!("{}", printable_characters_sequence);
                 length = 0;
                 printable_characters_sequence = String::new();
             }

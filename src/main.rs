@@ -3,7 +3,6 @@ use std::io::{prelude::*, BufReader};
 use std::fs::File;
 
 const GREEN: &str = "\x1b[1;32m";
-const RESET: &str = "\x1b[0m";
 
 fn main() {
     #[derive(Parser, Debug)]
@@ -50,7 +49,6 @@ fn main() {
 
                     if !args.no_color {
                         printable_characters_sequence.insert_str(0, GREEN);
-                        printable_characters_sequence.push_str(RESET);
                     }
                     println!("{}", printable_characters_sequence);
                 }

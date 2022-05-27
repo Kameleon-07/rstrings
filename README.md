@@ -27,7 +27,7 @@
 ```
 git clone https://github.com/Kameleon-07/rstrings.git
 cd rstrings
-cargo install --path
+cargo install --path .
 strip ~/.cargo/bin/rstrings
 ```
 

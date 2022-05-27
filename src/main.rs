@@ -54,12 +54,11 @@ fn main() {
                     if args.no_color {
                         for _i in 0..8 {
                             printable_characters_sequence.remove(0);
-                            printable_characters_sequence.remove(printable_characters_sequence.len() - 1);
                         }
                     }
-                    println!("{}", printable_characters_sequence);
                 }
 
+                println!("{}", printable_characters_sequence);
                 length = 0;
                 printable_characters_sequence = String::new();
             }

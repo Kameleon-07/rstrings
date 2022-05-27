@@ -48,13 +48,9 @@ fn main() {
                         printable_characters_sequence.insert_str(0, format!("{} ", sequence_start).as_str());
                     }
 
-                    printable_characters_sequence.insert_str(0, GREEN);
-                    printable_characters_sequence.push_str(RESET);
-
-                    if args.no_color {
-                        for _i in 0..8 {
-                            printable_characters_sequence.remove(0);
-                        }
+                    if !args.no_color {
+                        printable_characters_sequence.insert_str(0, GREEN);
+                        printable_characters_sequence.push_str(RESET);
                     }
                     println!("{}", printable_characters_sequence);
                 }

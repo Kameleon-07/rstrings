@@ -25,10 +25,26 @@ fn main() {
     }
 
     let args = Args::parse();
-    let f = File::open(args.file).expect("Failed opening file");
-    let mut reader = BufReader::new(f);
+    let f = File::open(args.file);
     let mut buffer = Vec::new();
-    reader.read_to_end(&mut buffer).expect("Failed reading file");
+    match f {
+        Ok(file) => {
+            let mut reader = BufReader::new(file);
+            match reader.read_to_end(&mut buffer) {
+                Ok(_) => {
+
+                }
+                Err(e) => {
+                    eprintln!("Error reading to end: {}", e);
+                }
+            }
+        }
+
+        Err(e) => {
+            eprintln!("There was an error reading file: {}", e);
+        }
+
+    }
 
         let mut length = 0;
         let mut printable_characters_sequence = String::new();

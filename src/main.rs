@@ -26,14 +26,42 @@ fn main() {
 
     let args = Args::parse();
     let f = File::open(args.file);
-    let mut buffer = Vec::new();
     match f {
         Ok(file) => {
+            let mut buffer = Vec::new();
             let mut reader = BufReader::new(file);
+
             match reader.read_to_end(&mut buffer) {
                 Ok(_) => {
+                    let mut length = 0;
+                    let mut printable_characters_sequence = String::new();
+                    let mut sequence_start = 0;
 
+                    for (index, value) in buffer.iter().enumerate() {
+                        if *value <= 126 && *value >= 32 {
+                            if length == 0 {
+                                sequence_start = index
+                            }
+                            length += 1;
+                            printable_characters_sequence.push(*value as char);
+                        } else {
+                            if length >= args.sequence_length {
+                                if args.show_index {
+                                    printable_characters_sequence.insert_str(0, format!("{} ", sequence_start).as_str());
+                                }
+                            
+                                if !args.no_color {
+                                    printable_characters_sequence.insert_str(0, GREEN);
+                                }
+                                println!("{}", printable_characters_sequence);
+                            }
+                        
+                            length = 0;
+                            printable_characters_sequence = String::new();
+                        }
+                    }
                 }
+                
                 Err(e) => {
                     eprintln!("Error reading to end: {}", e);
                 }
@@ -45,32 +73,4 @@ fn main() {
         }
 
     }
-
-        let mut length = 0;
-        let mut printable_characters_sequence = String::new();
-        let mut sequence_start = 0;
-
-        for (index, value) in buffer.iter().enumerate() {
-            if *value <= 126 && *value >= 32 {
-                if length == 0 {
-                    sequence_start = index
-                }
-                length += 1;
-                printable_characters_sequence.push(*value as char);
-            } else {
-                if length >= args.sequence_length {
-                    if args.show_index {
-                        printable_characters_sequence.insert_str(0, format!("{} ", sequence_start).as_str());
-                    }
-
-                    if !args.no_color {
-                        printable_characters_sequence.insert_str(0, GREEN);
-                    }
-                    println!("{}", printable_characters_sequence);
-                }
-
-                length = 0;
-                printable_characters_sequence = String::new();
-            }
-        }
 }
